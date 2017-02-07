@@ -2,9 +2,71 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <title>UKR-Latinization</title>
         <script src="latinization_ukr.js"></script>
+        <style type="text/css">
+            body {
+                color: #3d4a57;
+                padding: 30px;
+            }
+
+            h2 {
+                text-align: center;
+                font-size: 24px;
+            }
+
+            #about {
+                text-align: justify;
+            }
+
+            #example {
+                margin: 50 px;
+            }
+
+            #output-form {
+                margin-left: 3px;
+            }
+
+            #try-it {
+                margin-top: 30px;
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+        </style>
     </head>
     <body>
+        <h2>Example of using latinization</h2>
+        <div id="about">
+            <p>
+            Transliteration is used to represent local proper nouns in English. Transliteration of personal and geographical names is done by reproduction each letter in Latin.
+            </p>
+            <p>
+            Library latinization_ukr.js can be used for latinization of Ukrainian (cyrilic) symbols and words according to official transliteration rules (The Cabinet of Ministers of Ukraine's decree #55 from 01-27-2010).
+            It allows to transliterate Ukrainian proper nouns, possible with hyphens and apostrophes. It also resolves common known mistake with russian letters in words. No numbers allowed! 
+            </p>
+            <p>
+            Function transliterate() takes single Ukrainian word as argument and returns transliterated string if input string doesn`t consist any deprecated symbols. Otherwise, it returns null string.
+            </p>
+            <p id="try-it">
+            Try it with form below:
+            </p>
+        </div>
+        <div id="example">
+            <label>Original string:</label>
+            <input type="text" id="input-form" size="25" value="">
+            <button type="button" onclick="latinize()">Latinize it!</button>
+            <p></p>
+            <label id="result">Transliterated:</label>
+            <input type="text" id="output-form" size="25" value="">
+        </div>
+        <script>
+        function latinize(){
+            var inputWord = document.getElementById("input-form").value;
+            var outputWord = transliterate(inputWord);
+            document.getElementById("output-form").value = outputWord;
+        };
+        </script>
     </body>
-</html> 
+</html>
