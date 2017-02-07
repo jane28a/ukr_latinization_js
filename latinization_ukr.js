@@ -35,21 +35,32 @@ var commonMappingUKR2EN = {
     'ь' : '',
 };
 
-var mappingRU2UKR = {
-    'ы' : 'и',
-    'э' : 'е',
-    'ё' : 'йо',
-    'ъ' : ''
-};
-
 //If there is apostrophe in Ukrainian word (represented by some common used symbols)
 // - replace it with null string according to rules
-function excludeApostrophe(ukr_word) {
+function excludeApostrophe(ukr_word){
     var apostropheSymbols = ['`', '"', '\'', '*'];
     for (var symbol of apostropheSymbols) {
         if (ukr_word.includes(symbol)){
             ukr.word.replace(symbol,'');
         };
+    };
+    return ukr_word;
+};
+
+//Fix for common known problem - using russian letters in Ukrainian words.
+//If no-Ukrainian letter is in the word, check is it russian letter
+//If it is, replace it with Ukrainian one and return corrected word, if no - return -1
+function replaceRussianLetters(ukr_word, letter){
+    var mappingRU2UKR = {
+        'ы' : 'и',
+        'э' : 'е',
+        'ё' : 'йо',
+        'ъ' : ''
+    };
+    if (Object.keys(mappingRU2UKR).indexOf(letter) == -1) {
+        return -1;
+    }else{
+        ukr_word.replace(letter, mappingRU2UKR[letter]);
     };
     return ukr_word;
 };
@@ -60,8 +71,10 @@ function confirmUkrainianText(ukr_word){
     var consistsOnlyUkr = true;
     for (var letter of ukr_word){
         if (Object.keys(commonMappingUKR2EN).indexOf(letter) == -1){
-            consistsOnlyUkr = false;
-            break;
+            if (replaceRussianLetters(ukr_word, letter) == -1){
+                consistsOnlyUkr = false;
+                break;
+            };
         };
     };
     return consistsOnlyUkr;
