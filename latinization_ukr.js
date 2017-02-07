@@ -81,6 +81,9 @@ function confirmUkrainianText(ukr_word){
     for (var letter of ukr_word){
         if (Object.keys(commonMappingUKR2EN).indexOf(letter) == -1){
             if (replaceRussianLetters(ukr_word, letter) == -1){
+                if (letter == '-') {
+                    continue;
+                };
                 consistsOnlyUkr = false;
                 break;
             };
@@ -108,11 +111,19 @@ function transliterate(ukr_word){
                 letter_pos++;
                 continue;
             };
+            //Hyphens are copied to transliterated string
+            if (lowercasedWord[letter_pos] == '-'){
+                latinizatedWord = latinizatedWord + '-';
+                continue;
+            };
             latinizatedWord = latinizatedWord + commonMappingUKR2EN[letter];
             if (latinizatedWord.length == 1) {
                 latinizatedWord.toUpperCase;
             };
         };
+    }else{
+        console.log("Error: some symbol in this word does not exist in Ukrainian language");
+        return ukr_word;
     };
     return latinizatedWord;
 };
