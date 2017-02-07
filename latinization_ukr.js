@@ -35,6 +35,15 @@ var commonMappingUKR2EN = {
     'ь' : '',
 };
 
+//Some letters has another latinization when they are in the beginning of the word
+var additionalMappingUKR2EN = {
+    'є' : 'ye',
+    'ї' : 'yi',
+    'й' : 'y',
+    'ю' : 'yu',
+    'я' : 'ya'
+};
+
 //If there is apostrophe in Ukrainian word (represented by some common used symbols)
 // - replace it with null string according to rules
 function excludeApostrophe(ukr_word){
@@ -85,8 +94,24 @@ function transliterate(ukr_word){
     var latinizatedWord = '';
     var lowercasedWord = ukr_word.toLowerCase();
     if(confirmUkrainianText(lowercasedWord)){
-        for (letter of lowercasedWord){
+        for (var letter_pos = 0; letter_pos<lowercasedWord.length; letter_pos++){
+            if (letter_pos == 0) {
+                //Check if letters have different latinization at word`s beginning
+                if (Object.keys(additionalMappingUKR2EN).indexOf(lowercasedWord[letter_pos]) != -1){
+                    latinizatedWord = latinizatedWord + additionalMappingUKR2EN[lowercasedWord[letter_pos]];
+                    continue;
+                };
+            };
+            //Special transliteration for 'зг'
+            if (lowercasedWord[letter_pos] == 'з' && lowercasedWord[letter_pos+1] == 'г'){
+                latinizatedWord = latinizatedWord + 'zgh';
+                letter_pos++;
+                continue;
+            };
             latinizatedWord = latinizatedWord + commonMappingUKR2EN[letter];
+            if (latinizatedWord.length == 1) {
+                latinizatedWord.toUpperCase;
+            };
         };
     };
     return latinizatedWord;
