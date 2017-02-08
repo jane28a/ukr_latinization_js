@@ -44,6 +44,8 @@ var additionalMappingUKR2EN = {
     'я' : 'ya'
 };
 
+var decimals = /\d/;
+
 var correctedWord = '';
 
 //If there is apostrophe in Ukrainian word (represented by some common used symbols)
@@ -86,7 +88,10 @@ function confirmUkrainianText(ukr_word){
                 if (letter == '-') {
                     continue;
                 };
-                  if (letter == ' ') {
+                if (letter == ' ') {
+                    continue;
+                };
+                if (decimals.test(letter)) {
                     continue;
                 };
             }else{
@@ -136,6 +141,10 @@ function transliterate(ukr_word){
             if (correctedWord[letter_pos] == ' '){
                 latinizatedWord = latinizatedWord + ' ';
                 likeFirstLetter = true;
+                continue;
+            };
+            if (decimals.test(correctedWord[letter_pos])){
+                latinizatedWord = latinizatedWord + correctedWord[letter_pos];
                 continue;
             };
             if (likeFirstLetter) {

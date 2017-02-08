@@ -109,6 +109,10 @@
     assert.equal(transliterate("Сергій Яковлев"), "Serhii Yakovlev");
   });
 
+    QUnit.test("transliterate decimals", function( assert ) {
+    assert.equal(transliterate("Сашко993"), "Sashko993");
+  });
+
   </script>
 </head>
 <body>
