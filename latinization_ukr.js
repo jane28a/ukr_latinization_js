@@ -156,7 +156,7 @@ function transliterate(ukr_word){
             };
         };
     }else{
-        console.log("Error: some symbol in this word does not exist in Ukrainian language");
+        alert("Error: some symbol in this string does not exist in Ukrainian language");
         return ukr_word;
     };
     return capitalize(latinizatedWord);
