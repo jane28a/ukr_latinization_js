@@ -86,6 +86,9 @@ function confirmUkrainianText(ukr_word){
                 if (letter == '-') {
                     continue;
                 };
+                  if (letter == ' ') {
+                    continue;
+                };
             }else{
                 correctedWord = replaceRussianLetters(ukr_word, letter);
                 continue;
@@ -97,17 +100,24 @@ function confirmUkrainianText(ukr_word){
     return consistsOnlyUkr;
 };
 
+//First symbol in apper case, all other - doesn`t change
+function capitalize(word){
+    return word[0].toUpperCase() + word.slice(1);
+};
+
 //Transliteration of personal and geographical names is done by reproduction each letter in Latin
 function transliterate(ukr_word){
+    var likeFirstLetter = false;
     var latinizatedWord = '';
     var lowercasedWord = ukr_word.toLowerCase();
     correctedWord = lowercasedWord;
     if(confirmUkrainianText(lowercasedWord)){
         for (var letter_pos = 0; letter_pos<correctedWord.length; letter_pos++){
-            if (letter_pos == 0) {
+            if (letter_pos == 0 || likeFirstLetter) {
                 //Check if letters have different latinization at word`s beginning
                 if (Object.keys(additionalMappingUKR2EN).indexOf(correctedWord[letter_pos]) != -1){
-                    latinizatedWord = latinizatedWord + additionalMappingUKR2EN[correctedWord[letter_pos]];
+                    latinizatedWord = latinizatedWord + capitalize(additionalMappingUKR2EN[correctedWord[letter_pos]]);
+                    likeFirstLetter = false;
                     continue;
                 };
             };
@@ -120,13 +130,25 @@ function transliterate(ukr_word){
             //Hyphens are copied to transliterated string
             if (correctedWord[letter_pos] == '-'){
                 latinizatedWord = latinizatedWord + '-';
+                likeFirstLetter = true;
                 continue;
             };
-            latinizatedWord = latinizatedWord + commonMappingUKR2EN[correctedWord[letter_pos]];
+            if (correctedWord[letter_pos] == ' '){
+                latinizatedWord = latinizatedWord + ' ';
+                likeFirstLetter = true;
+                continue;
+            };
+            if (likeFirstLetter) {
+                latinizatedWord = latinizatedWord + capitalize(commonMappingUKR2EN[correctedWord[letter_pos]]);
+                likeFirstLetter = false;
+                continue;
+            }else{
+                latinizatedWord = latinizatedWord + commonMappingUKR2EN[correctedWord[letter_pos]];
+            };
         };
     }else{
         console.log("Error: some symbol in this word does not exist in Ukrainian language");
         return ukr_word;
     };
-    return latinizatedWord[0].toUpperCase()+latinizatedWord.slice(1);
+    return capitalize(latinizatedWord);
 };
