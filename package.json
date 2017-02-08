@@ -1,0 +1,30 @@
+{
+  "name": "latinize_ukr",
+  "version": "0.1.0",
+  "description": "JS library for transliteration strings in Ukrainian languege. Has type-fix for russian letters, properly handles hyphens, whitespaces and different most commonly used apostrophe symbols. It operates in accordance with the Cabinet of Ministers of Ukraine's decree#55 from 01-27-2010. ",
+  "main": "latinization_ukr.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jane28a/ukr_latinization_js.git"
+  },
+  "keywords": [
+    "ukr",
+    "ua",
+    "ukr2en",
+    "latinization",
+    "romanization",
+    "transliteration"
+  ],
+  "author": "Jane Karaim",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/jane28a/ukr_latinization_js/issues"
+  },
+  "homepage": "https://github.com/jane28a/ukr_latinization_js#readme"
+}

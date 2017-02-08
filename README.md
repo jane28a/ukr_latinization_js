@@ -13,3 +13,6 @@ If there are any other symbols - they'll be copied to result string "as is".
 
 <p><b>confirmUkrainianLetter(letter)</b>
 <p>Checks if given letter is Ukrainian letter. Return boolean.
+
+<p>For installing as npm module use </p>
+<p><i>npm install latinize_ukr</i></p>
