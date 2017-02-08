@@ -113,11 +113,14 @@
     assert.equal(transliterate("Сашко993"), "Sashko993");
   });
 
-    QUnit.test("transliterate unknown symbols fall", function( assert ) {
-    assert.equal(transliterate("Сан_торій"), "Сан_торій");
-    assert.equal(transliterate("Сан=торій"), "Сан=торій");
-    assert.equal(transliterate("Говерла))"), "Говерла))");
-    assert.equal(transliterate("Mario"), "Mario");
+    QUnit.test("transliterate latin letters", function( assert ) {
+    assert.equal(transliterate("Example"), "Example");
+  });
+
+    QUnit.test("transliterate symbols", function( assert ) {
+    assert.equal(transliterate("Говерла))"), "Hoverla))");
+    assert.equal(transliterate("_Тест_"), "_test_");
+    assert.equal(transliterate("Увага!!! Стій!"), "Uvaha!!! Stii!");
   });
 
   </script>
