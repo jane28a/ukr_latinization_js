@@ -1,4 +1,3 @@
-# ukr_latinization_js
 Library for latinization of Ukrainian (cyrilic) symbols and words according to official transliteration rules (The Cabinet of Ministers of Ukraine's decree #55 from 01-27-2010) for javascript applications.
 Most common function is 
 <p><b>transliterate(ukr_word)</b> 
@@ -13,6 +12,7 @@ If there are any other symbols - they'll be copied to result string "as is".
 
 <p><b>confirmUkrainianLetter(letter)</b>
 <p>Checks if given letter is Ukrainian letter. Return boolean.
-
+<p></p>
+<p></p>
 <p>For installing as npm module use </p>
-<p><i>npm install latinize_ukr</i></p>
+<p><i>npm install transliterate_ukr</i></p>

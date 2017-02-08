@@ -1,7 +1,7 @@
 {
-  "name": "latinize_ukr",
-  "version": "0.1.0",
-  "description": "JS library for transliteration strings in Ukrainian languege. Has type-fix for russian letters, properly handles hyphens, whitespaces and different most commonly used apostrophe symbols. It operates in accordance with the Cabinet of Ministers of Ukraine's decree#55 from 01-27-2010. ",
+  "name": "transliterate_ukr",
+  "version": "0.1.1",
+  "description": "JS library for transliteration strings in Ukrainian languege. Has type-fix for russian letters, properly handles hyphens, whitespaces and most commonly used apostrophe symbols. It operates in accordance with the CMU's decree#55 from 01-27-2010",
   "main": "latinization_ukr.js",
   "directories": {
     "test": "test"
