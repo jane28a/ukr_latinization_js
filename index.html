@@ -16,22 +16,34 @@
                 font-size: 24px;
             }
 
-            #about {
+            div {
                 text-align: justify;
             }
 
-            #example {
-                margin: 50 px;
+            #example-transliterate, #capt-form, #check-form {
+                margin: 50px;
             }
 
             #output-form {
                 margin-left: 3px;
             }
 
-            #try-it {
+            #try-it, #try-capt, #try-check {
                 margin-top: 30px;
                 font-size: 14px;
                 font-weight: bold;
+            }
+
+            #example-capitalize, #example-check{
+                margin-top: 50px;
+            }
+
+            #output-form-capitalize {
+                margin-left: 28px;
+            }
+
+            #output-form-check {
+                margin-left: 10px;
             }
 
         </style>
@@ -44,28 +56,71 @@
             </p>
             <p>
             Library latinization_ukr.js can be used for latinization of Ukrainian (cyrilic) symbols and words according to official transliteration rules (The Cabinet of Ministers of Ukraine's decree #55 from 01-27-2010).
-            It allows to transliterate Ukrainian proper nouns, possible with hyphens and apostrophes. It also resolves common known mistake with russian letters in words. Decimal numbers are copied "as is".
+            It allows to transliterate Ukrainian proper nouns, possible with hyphens, whitespaces and apostrophes. It also resolves common known type mistake with russian letters in words. Decimal numbers and any other symbols are copied "as is" to result string.
             </p>
+            <hr>
             <p>
-            Function transliterate() takes single Ukrainian word as argument and returns transliterated string if input string doesn`t consist any deprecated symbols. Otherwise, it returns null string.
+            Function transliterate() takes string as argument and returns transliterated (represented in Latin letters) one. In result string, first letter or letter after whitespace and hyphens are always capitalized, and letter after any other symbol is lowercased.
             </p>
             <p id="try-it">
-            Try it with form below:
+            Try transliteration with the form below:
             </p>
         </div>
-        <div id="example">
+        <div id="example-transliterate">
             <label>Original string:</label>
             <input type="text" id="input-form" size="25" value="">
             <button type="button" onclick="latinize()">Latinize it!</button>
             <p></p>
-            <label id="result">Transliterated:</label>
+            <label>Transliterated:</label>
             <input type="text" id="output-form" size="25" value="">
         </div>
+        <hr>
+        <div id="example-capitalize">
+            <p></p>
+            <p>There is also helper function named "capitalize()". It takes a string and change first letter of it ot upper case. No any other changes.</p><p id="try-capt">Try this function with next form: </p>
+            <div id="capt-form">
+                <label>Original string:</label>
+                <input type="text" id="input-form-capitalize" size="25" value="">
+                <button type="button" onclick="goToUpper()">Capitalize it!</button>
+                <p></p>
+                <label>Capitalized:</label>
+                <input type="text" id="output-form-capitalize" size="25" value="">
+            </div>
+        </div>
+        <hr>
+        <div id="example-check">
+            <p></p>
+            <p>Second helper function (confirmUkrainianLetter()) checks if given symbol is Ukrainian letter. It returns boolean "true" for letters of Ukrainian alphabet and "false" otherwise.</p><p id="try-check">Next form shows how this function works: </p>
+            <div id="check-form">
+                <label>Symbol:</label>
+                <input type="text" id="input-form-check" size="25" value="">
+                <button type="button" onclick="checkIt()">Check it!</button>
+                <p></p>
+                <label>Result:</label>
+                <input type="text" id="output-form-check" size="25" value="">
+            </div>
+        </div>
+        <hr>
         <script>
         function latinize(){
             var inputWord = document.getElementById("input-form").value;
             var outputWord = transliterate(inputWord);
             document.getElementById("output-form").value = outputWord;
+        };
+        function goToUpper(){
+            var inputString = document.getElementById("input-form-capitalize").value;
+            var outputString = capitalize(inputString);
+            document.getElementById("output-form-capitalize").value = outputString;
+        };
+        function checkIt(){
+            var inputString = document.getElementById("input-form-check").value;
+            if (inputString.length > 1){
+                alert("No-no, only one symbol per time!");
+                document.getElementById("output-form-check").value = "";
+            }else{
+                var outputString = confirmUkrainianLetter(inputString);
+                document.getElementById("output-form-check").value = outputString;
+            };
         };
         </script>
     </body>
