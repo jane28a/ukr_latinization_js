@@ -44,65 +44,23 @@ var additionalMappingUKR2EN = {
     'я' : 'ya'
 };
 
-var decimals = /\d/;
+//Symbols that can be used as apostrophe symbol
+var apostropheSymbols = ['`', '"', '\'', '*'];
 
-var correctedWord = '';
-
-//If there is apostrophe in Ukrainian word (represented by some common used symbols)
-// - replace it with null string according to rules
-function excludeApostrophe(ukr_word){
-    var apostropheSymbols = ['`', '"', '\'', '*'];
-    for (var symbol of apostropheSymbols) {
-        if (ukr_word.includes(symbol)){
-            ukr_word = ukr_word.replace(symbol,'');
-        };
-    };
-    return ukr_word;
+//Specific russian letters
+var mappingRU2UKR = {
+    'ы' : 'и',
+    'э' : 'е',
+    'ё' : 'йо',
+    'ъ' : ''
 };
 
-//Fix for common known problem - using russian letters in Ukrainian words.
-//If no-Ukrainian letter is in the word, check is it russian letter
-//If it is, replace it with Ukrainian one and return corrected word, if no - return -1
-function replaceRussianLetters(ukr_word, letter){
-    var mappingRU2UKR = {
-        'ы' : 'и',
-        'э' : 'е',
-        'ё' : 'йо',
-        'ъ' : ''
-    };
-    if (Object.keys(mappingRU2UKR).indexOf(letter) == -1) {
-        return -1;
-    }else{
-        ukr_word = ukr_word.replace(letter, mappingRU2UKR[letter]);
-    };
-    return ukr_word;
-};
-
-//Make sure, that all symbols in given text snippet are ukrainian letters
-function confirmUkrainianText(ukr_word){
-    correctedWord = excludeApostrophe(ukr_word);
-    var consistsOnlyUkr = true;
-    for (var letter of correctedWord){
-        if (Object.keys(commonMappingUKR2EN).indexOf(letter) == -1){
-            if (replaceRussianLetters(ukr_word, letter) == -1){
-                if (letter == '-') {
-                    continue;
-                };
-                if (letter == ' ') {
-                    continue;
-                };
-                if (decimals.test(letter)) {
-                    continue;
-                };
-            }else{
-                correctedWord = replaceRussianLetters(ukr_word, letter);
-                continue;
-            };
-                consistsOnlyUkr = false;
-                break;
-        };
-    };
-    return consistsOnlyUkr;
+//Make sure that given symbol is ukrainian letter
+function confirmUkrainianLetter(letter){
+    if (Object.keys(commonMappingUKR2EN).indexOf(letter.toLowerCase()) == -1){
+        return false;
+    }
+    return true;
 };
 
 //First symbol in apper case, all other - doesn`t change
@@ -115,49 +73,64 @@ function transliterate(ukr_word){
     var likeFirstLetter = false;
     var latinizatedWord = '';
     var lowercasedWord = ukr_word.toLowerCase();
-    correctedWord = lowercasedWord;
-    if(confirmUkrainianText(lowercasedWord)){
-        for (var letter_pos = 0; letter_pos<correctedWord.length; letter_pos++){
+    for (var letter_pos = 0; letter_pos<lowercasedWord.length; letter_pos++){
+        if (confirmUkrainianLetter(lowercasedWord[letter_pos])){
+        //If there is Ukrainian letter - transliterate it according to rules
             if (letter_pos == 0 || likeFirstLetter) {
                 //Check if letters have different latinization at word`s beginning
-                if (Object.keys(additionalMappingUKR2EN).indexOf(correctedWord[letter_pos]) != -1){
-                    latinizatedWord = latinizatedWord + capitalize(additionalMappingUKR2EN[correctedWord[letter_pos]]);
+                if (Object.keys(additionalMappingUKR2EN).indexOf(lowercasedWord[letter_pos]) != -1){
+                    latinizatedWord = latinizatedWord + capitalize(additionalMappingUKR2EN[lowercasedWord[letter_pos]]);
+                    likeFirstLetter = false;
+                    continue;
+                };
+                //Capitalize letter if need and no special case for it
+                if (likeFirstLetter){
+                    latinizatedWord = latinizatedWord + capitalize(commonMappingUKR2EN[lowercasedWord[letter_pos]]);
                     likeFirstLetter = false;
                     continue;
                 };
             };
             //Special transliteration for 'зг'
-            if (correctedWord[letter_pos] == 'з' && correctedWord[letter_pos+1] == 'г'){
+            if (lowercasedWord[letter_pos] == 'з' && lowercasedWord[letter_pos+1] == 'г'){
                 latinizatedWord = latinizatedWord + 'zgh';
                 letter_pos++;
                 continue;
             };
-            //Hyphens are copied to transliterated string
-            if (correctedWord[letter_pos] == '-'){
-                latinizatedWord = latinizatedWord + '-';
+            //If no special cases for letter
+            latinizatedWord = latinizatedWord + commonMappingUKR2EN[lowercasedWord[letter_pos]];   
+        }else{      //If given symbol isn`t Ukrainian letter
+            //If symbol whitespace or hyphen - copy it to result string
+            //and make next letter acts as first letter in the word
+            if (lowercasedWord[letter_pos] == ' ' || lowercasedWord[letter_pos] == '-') {
+                latinizatedWord = latinizatedWord + lowercasedWord[letter_pos];
                 likeFirstLetter = true;
                 continue;
             };
-            if (correctedWord[letter_pos] == ' '){
-                latinizatedWord = latinizatedWord + ' ';
-                likeFirstLetter = true;
+            //If there are specific russian letter find Ukrainian analogue
+            //and then transliterate it
+            if (Object.keys(mappingRU2UKR).indexOf(lowercasedWord[letter_pos]) != -1) {
+                var ukrAnalogue = mappingRU2UKR[lowercasedWord[letter_pos]];
+                for (letter of ukrAnalogue) {
+                    if (letter_pos == 0 || likeFirstLetter) {
+                        //Check if letters have different latinization at word`s beginning
+                        if (Object.keys(additionalMappingUKR2EN).indexOf(letter) != -1){
+                            latinizatedWord = latinizatedWord + capitalize(additionalMappingUKR2EN[letter]);
+                            likeFirstLetter = false;
+                            continue;
+                        };
+                    };
+                    latinizatedWord = latinizatedWord + commonMappingUKR2EN[letter];
+                };
                 continue;
             };
-            if (decimals.test(correctedWord[letter_pos])){
-                latinizatedWord = latinizatedWord + correctedWord[letter_pos];
+            //Check if symbol is apostrophe symbol and exclude it if need
+            if (apostropheSymbols.includes(lowercasedWord[letter_pos])){
+                latinizatedWord = latinizatedWord + '';
                 continue;
             };
-            if (likeFirstLetter) {
-                latinizatedWord = latinizatedWord + capitalize(commonMappingUKR2EN[correctedWord[letter_pos]]);
-                likeFirstLetter = false;
-                continue;
-            }else{
-                latinizatedWord = latinizatedWord + commonMappingUKR2EN[correctedWord[letter_pos]];
-            };
+            //Otervise copy symbol to result string
+            latinizatedWord = latinizatedWord + lowercasedWord[letter_pos];
         };
-    }else{
-        alert("Error: some symbol in this string does not exist in Ukrainian language");
-        return ukr_word;
     };
     return capitalize(latinizatedWord);
 };
