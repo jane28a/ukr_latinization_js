@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Transliterated Nouns</title>
+ 
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.1.1.css">
+  <script src="https://code.jquery.com/qunit/qunit-2.1.1.js"></script>
+  <script src="../latinization_ukr.js"></script>
+ 
+  <script>
+  QUnit.test("transliterate basics", function( assert ) {
+    assert.equal(transliterate("Алушта"), "Alushta");
+    assert.equal(transliterate("Андрій"), "Andrii");
+    assert.equal(transliterate("Борщагівка"), "Borshchahivka");
+    assert.equal(transliterate("Борисенко"), "Borysenko");
+    assert.equal(transliterate("Вінниця"), "Vinnytsia");
+    assert.equal(transliterate("Володимир"), "Volodymyr");
+    assert.equal(transliterate("Гадяч"), "Hadiach");
+    assert.equal(transliterate("Богдан"), "Bohdan");
+    assert.equal(transliterate("Згурський"), "Zghurskyi");
+    assert.equal(transliterate("Ґалаґан"), "Galagan");
+    assert.equal(transliterate("Ґорґани"), "Gorgany");
+    assert.equal(transliterate("Донецьк"), "Donetsk");
+    assert.equal(transliterate("Дмитро"), "Dmytro");
+    assert.equal(transliterate("Рівне"), "Rivne");
+    assert.equal(transliterate("Олег"), "Oleh");
+    assert.equal(transliterate("Есмань"), "Esman");
+    assert.equal(transliterate("Єнакієве"), "Yenakiieve");
+    assert.equal(transliterate("Гаєвич"), "Haievych");
+    assert.equal(transliterate("Короп'є"), "Koropie");
+    assert.equal(transliterate("Житомир"), "Zhytomyr");
+    assert.equal(transliterate("Жанна"), "Zhanna");
+    assert.equal(transliterate("Жежелів"), "Zhezheliv");
+    assert.equal(transliterate("Закарпаття"), "Zakarpattia");
+    assert.equal(transliterate("Казимирчук"), "Kazymyrchuk");
+    assert.equal(transliterate("Медвин"), "Medvyn");
+    assert.equal(transliterate("Михайленко"), "Mykhailenko");
+    assert.equal(transliterate("Іванків"), "Ivankiv");
+    assert.equal(transliterate("Іващенко"), "Ivashchenko");
+    assert.equal(transliterate("Їжакевич"), "Yizhakevych");
+    assert.equal(transliterate("Кадиївка"), "Kadyivka");
+    assert.equal(transliterate("Мар'їне"), "Marine");
+    assert.equal(transliterate("Йосипівка"), "Yosypivka");
+    assert.equal(transliterate("Стрий"), "Stryi");
+    assert.equal(transliterate("Олексій"), "Oleksii");
+    assert.equal(transliterate("Київ"), "Kyiv");
+    assert.equal(transliterate("Коваленко"), "Kovalenko");
+    assert.equal(transliterate("Лебедин"), "Lebedyn");
+    assert.equal(transliterate("Леонід"), "Leonid");
+    assert.equal(transliterate("Миколаїв"), "Mykolaiv");
+    assert.equal(transliterate("Маринич"), "Marynych");
+    assert.equal(transliterate("Ніжин"), "Nizhyn");
+    assert.equal(transliterate("Наталія"), "Nataliia");
+    assert.equal(transliterate("Одеса"), "Odesa");
+    assert.equal(transliterate("Онищенко"), "Onyshchenko");
+    assert.equal(transliterate("Полтава"), "Poltava");
+    assert.equal(transliterate("Петро"), "Petro");
+    assert.equal(transliterate("Решетилівка"), "Reshetylivka");
+    assert.equal(transliterate("Рибчинський"), "Rybchynskyi");
+    assert.equal(transliterate("Суми"), "Sumy");
+    assert.equal(transliterate("Соломія"), "Solomiia");
+    assert.equal(transliterate("Тернопіль"), "Ternopil");
+    assert.equal(transliterate("Троць"), "Trots");
+    assert.equal(transliterate("Ужгород"), "Uzhhorod");
+    assert.equal(transliterate("Уляна"), "Uliana");
+    assert.equal(transliterate("Фастів"), "Fastiv");
+    assert.equal(transliterate("Філіпчук"), "Filipchuk");
+    assert.equal(transliterate("Харків"), "Kharkiv");
+    assert.equal(transliterate("Христина"), "Khrystyna");
+    assert.equal(transliterate("Стеценко"), "Stetsenko");
+    assert.equal(transliterate("Чернівці"), "Chernivtsi");
+    assert.equal(transliterate("Шевченко"), "Shevchenko");
+    assert.equal(transliterate("Шостка"), "Shostka");
+    assert.equal(transliterate("Кишеньки"), "Kyshenky");
+    assert.equal(transliterate("Щербухи"), "Shcherbukhy");
+    assert.equal(transliterate("Гоща"), "Hoshcha");
+    assert.equal(transliterate("Гаращенко"), "Harashchenko");
+    assert.equal(transliterate("Юрій"), "Yurii");
+    assert.equal(transliterate("Корюківка"), "Koriukivka");
+    assert.equal(transliterate("Яготин"), "Yahotyn");
+    assert.equal(transliterate("Ярошенко"), "Yaroshenko");
+    assert.equal(transliterate("Костянтин"), "Kostiantyn");
+    assert.equal(transliterate("Знам'янка"), "Znamianka");
+    assert.equal(transliterate("Феодосія"), "Feodosiia");
+  });
+
+    QUnit.test("transliterate hyphens", function( assert ) {
+    assert.equal(transliterate("Карпенко-Карий"), "Karpenko-Karyi");
+    assert.equal(transliterate("Сушко-Яровий"), "Sushko-Yarovyi");
+  });
+
+    QUnit.test("transliterate russian letters", function( assert ) {
+    assert.equal(transliterate("Мартын"), "Martyn");
+    assert.equal(transliterate("Эколог"), "Ekoloh");
+    assert.equal(transliterate("Ёж"), "Yozh");
+    assert.equal(transliterate("Подъезд"), "Podezd");
+  });
+
+    QUnit.test("transliterate apostrophes", function( assert ) {
+    assert.equal(transliterate("В'юн"), "Viun");
+    assert.equal(transliterate("В*юн"), "Viun");
+    assert.equal(transliterate("В\'юн"), "Viun");
+    assert.equal(transliterate("В\"юн"), "Viun");
+  });
+
+    QUnit.test("transliterate whitespace", function( assert ) {
+    assert.equal(transliterate("Біла Церква"), "Bila Tserkva");
+    assert.equal(transliterate("Сергій Яковлев"), "Serhii Yakovlev");
+  });
+
+  </script>
+</head>
+<body>
+ 
+<div id="qunit"></div>
+ 
+</body>
+</html>
